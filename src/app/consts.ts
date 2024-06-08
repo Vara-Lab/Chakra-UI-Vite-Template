@@ -19,8 +19,8 @@ export const ROUTES = {
   NOTFOUND: '*',
 };
 
-export const sponsorName = "DavidAdmin";
-export const sponsorMnemonic = "strong orchard plastic arena pyramid lobster lonely rich stomach label clog rubber";
+export const sponsorName = "";
+export const sponsorMnemonic = "";
 
 export const CONTRACT: ContractData = {
   programId: "0x4a8d99e4925dc0285ae7d2f16f97869390880b83a36cfce17b54f31529ec53a3",
