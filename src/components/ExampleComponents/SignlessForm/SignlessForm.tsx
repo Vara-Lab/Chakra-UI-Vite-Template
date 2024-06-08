@@ -78,7 +78,6 @@ export const SignlessForm = ({ closeForm }: Props) => {
 
     const handleConfirmData = async () => {
         const encryptedName = CryptoJs.SHA256(noWalletAccountData.accountName).toString();
-        console.log(`encrypted: ${encryptedName}`);
 
         const newSignlessAccount = await createNewPairAddress();
         const lockedSignlessAccount = lockPair(
@@ -150,9 +149,6 @@ export const SignlessForm = ({ closeForm }: Props) => {
                 SignlessAddressByAddress: account.decodedAddress
             }
         );
-
-        console.log(contractState);
-        
 
         const { signlessAddress } = contractState;
 

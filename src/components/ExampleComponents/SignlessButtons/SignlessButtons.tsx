@@ -90,9 +90,6 @@ export const SignlessButtons = () => {
                         return;
                     }
 
-                    console.log('Signless address:');
-                    console.log(decodeAddress(signlessAccount.address));
-
                     await sendMessageWithPayload(
                         account ?
                         {
@@ -124,10 +121,6 @@ export const SignlessButtons = () => {
                         setUserFillingTheForm(true);
                         return;
                     }
-
-                    console.log('Signless address:');
-                    console.log(decodeAddress(signlessAccount.address));
-                    
 
                     await sendMessageWithPayload(
                         account ?
