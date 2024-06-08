@@ -4,21 +4,41 @@ import { ApiLoader } from "@/components";
 import { Header } from "@/components/layout";
 import { withProviders } from "@/app/hocs";
 import { useWalletSync } from "@/features/wallet/hooks";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Root } from "./Routes";
 import { Home } from "./pages/home";
+import { Examples } from "./Routes";
+
+import { ROUTES } from "./app/consts";
 
 function Component() {
-  const { isApiReady } = useApi();
-  const { isAccountReady } = useAccount();
-
   useWalletSync();
-
-  const isAppReady = isApiReady && isAccountReady;
+  const routes = createBrowserRouter([
+    {
+      path: ROUTES.HOME,
+      element: <Root />,
+      errorElement: <h2>Unexpected error!</h2>,
+      children: [
+        {
+          errorElement: <h2>Unexpected error!</h2>,
+          children: [
+            {
+              index: true,
+              element: <Home />
+            },
+            {
+              path: ROUTES.EXAMPLES,
+              element: <Examples />
+            }
+          ]
+        }
+      ]
+    }
+  ]);
+  
 
   return (
-    <>
-      <Header isAccountVisible={isAccountReady}/>
-      {isAppReady ? <Home /> : <ApiLoader />}
-      </>
+    <RouterProvider router={routes} />
   );
 }
 
