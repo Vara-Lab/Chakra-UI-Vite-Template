@@ -8,7 +8,7 @@ type Props = {
 };
 
 export function Header({ isAccountVisible }: Props) {
-  const [isMenuOpen] = React.useState(false);
+  // const [isMenuOpen] = React.useState(false);
 
   return (
     <header className={styles.header}>
