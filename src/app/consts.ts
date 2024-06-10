@@ -19,6 +19,7 @@ export const ROUTES = {
   NOTFOUND: '*',
 };
 
+// To use the example code, enter the details of the account that will pay the vouchers, etc. (name and mnemonic)
 export const sponsorName = "";
 export const sponsorMnemonic = "";
 
