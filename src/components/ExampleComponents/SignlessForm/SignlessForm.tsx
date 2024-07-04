@@ -10,7 +10,7 @@ import {
     sponsorMnemonic 
 } from '@/app/consts'; 
 import { useForm } from 'react-hook-form'
-import { Input, Button } from '@gear-js/vara-ui';
+import { Input, Button, Modal } from '@gear-js/vara-ui';
 import { useAccount, useAlert } from '@gear-js/react-hooks';
 import { CONTRACT } from '@/app/consts';
 import CryptoJs from 'crypto-js';
@@ -329,163 +329,169 @@ export const SignlessForm = ({ closeForm }: Props) => {
     };
 
     return (
-        <div className='signless-form'>
-            <h2 className='signless-form__title'>
-                Signless Form
-            </h2>
-            {
-                userHasWallet ? (
-                    <form onSubmit={handleSubmit(handleSubmitPassword)} className='signless-form--form'>
-                        <Input 
-                            className='signless-form__input'
-                            type='password'
-                            label='Set password'
-                            error={errors.password?.message}
-                            {
-                                ...register(
-                                    'password',
-                                    {
-                                        required: 'Field is required',
-                                        minLength: {
-                                            value: 10,
-                                            message: 'Minimum length is 10'
+        <Modal
+            heading='Signless Form'
+            close={closeForm}
+        >
+             <div className='signless-form'>
+                {/* <h2 className='signless-form__title'>
+                    Signless Form
+                </h2> */}
+                {
+                    userHasWallet ? (
+                        <form onSubmit={handleSubmit(handleSubmitPassword)} className='signless-form--form'>
+                            <Input 
+                                className='signless-form__input'
+                                type='password'
+                                label='Set password'
+                                error={errors.password?.message}
+                                {
+                                    ...register(
+                                        'password',
+                                        {
+                                            required: 'Field is required',
+                                            minLength: {
+                                                value: 10,
+                                                message: 'Minimum length is 10'
+                                            }
                                         }
-                                    }
-                                )
-                            }
-                        />
-                        <Button
-                            className='signless-form__button'
-                            type='submit'
-                            block={true}
-                        >
-                            Submit
-                        </Button>
-                        {
-                            !sectionConfirmCreationOfSignlessAccountIsOpen &&  <Button
+                                    )
+                                }
+                            />
+                            <Button
                                 className='signless-form__button'
-                                color='light'
+                                type='submit'
                                 block={true}
-                                onClick={closeForm}
                             >
-                                Cancel
+                                Submit
                             </Button>
-                        }
-                    </form>
-                ) : (
-                    <form 
-                        onSubmit={
-                            handleSubmit(
-                                !sectionConfirmCreationOfSignlessAccountIsOpen
-                                ? handleSubmitNoWalletSignless
-                                : handleConfirmData
-                            )
-                        } 
-                        className='signless-form--form'
-                    >
-                        {
-                            !sectionConfirmCreationOfSignlessAccountIsOpen && <>
-                                <Input 
-                                    className='signless-form__input'
-                                    type='account name'
-                                    label='Set name'
-                                    error={errors.password?.message}
-                                    {
-                                        ...register(
-                                            'accountName',
-                                            {
-                                                required: 'Field is required',
-                                                minLength: {
-                                                    value: 10,
-                                                    message: 'Minimum length is 10'
-                                                }
-                                            }
-                                        )
-                                    }
-                                    onChange={(e) => {
-                                        setNoWalletAccountData({
-                                            ...noWalletAccountData,
-                                            accountName: e.target.value
-                                        });
-                                    }}
-                                    value={noWalletAccountData.accountName}
-                                />
-                                <Input 
-                                    className='signless-form__input'
-                                    type='password'
-                                    label='Set password'
-                                    error={errors.password?.message}
-                                    {
-                                        ...register(
-                                            'password',
-                                            {
-                                                required: 'Field is required',
-                                                minLength: {
-                                                    value: 10,
-                                                    message: 'Minimum length is 10'
-                                                }
-                                            }
-                                        )
-                                    }
-                                    onChange={(e) => {
-                                        setNoWalletAccountData({
-                                            ...noWalletAccountData,
-                                            password: e.target.value
-                                        });
-                                    }}
-                                    value={noWalletAccountData.password}
-                                />
-                            </>
-                        }
-
-                        {
-                            sectionConfirmCreationOfSignlessAccountIsOpen &&
-                            <p 
-                                style={{
-                                    width: '280px',
-                                    textAlign: 'center',
-                                    marginBottom: '10px'
-                                }}
-                            >
-                                The account does not have a signless account, do you want to create one?
-                            </p>
-                        }
-                        
-                        <Button 
-                            className='signless-form__button'
-                            type='submit'
-                            block={true}
+                            {
+                                !sectionConfirmCreationOfSignlessAccountIsOpen &&  <Button
+                                    className='signless-form__button'
+                                    color='light'
+                                    block={true}
+                                    onClick={closeForm}
+                                >
+                                    Cancel
+                                </Button>
+                            }
+                        </form>
+                    ) : (
+                        <form 
+                            onSubmit={
+                                handleSubmit(
+                                    !sectionConfirmCreationOfSignlessAccountIsOpen
+                                    ? handleSubmitNoWalletSignless
+                                    : handleConfirmData
+                                )
+                            } 
+                            className='signless-form--form'
                         >
                             {
-                                !sectionConfirmCreationOfSignlessAccountIsOpen
-                                ? 'Submit'
-                                : "Create"
+                                !sectionConfirmCreationOfSignlessAccountIsOpen && <>
+                                    <Input 
+                                        className='signless-form__input'
+                                        type='account name'
+                                        label='Set name'
+                                        error={errors.password?.message}
+                                        {
+                                            ...register(
+                                                'accountName',
+                                                {
+                                                    required: 'Field is required',
+                                                    minLength: {
+                                                        value: 10,
+                                                        message: 'Minimum length is 10'
+                                                    }
+                                                }
+                                            )
+                                        }
+                                        onChange={(e) => {
+                                            setNoWalletAccountData({
+                                                ...noWalletAccountData,
+                                                accountName: e.target.value
+                                            });
+                                        }}
+                                        value={noWalletAccountData.accountName}
+                                    />
+                                    <Input 
+                                        className='signless-form__input'
+                                        type='password'
+                                        label='Set password'
+                                        error={errors.password?.message}
+                                        {
+                                            ...register(
+                                                'password',
+                                                {
+                                                    required: 'Field is required',
+                                                    minLength: {
+                                                        value: 10,
+                                                        message: 'Minimum length is 10'
+                                                    }
+                                                }
+                                            )
+                                        }
+                                        onChange={(e) => {
+                                            setNoWalletAccountData({
+                                                ...noWalletAccountData,
+                                                password: e.target.value
+                                            });
+                                        }}
+                                        value={noWalletAccountData.password}
+                                    />
+                                </>
                             }
-                        </Button>
 
-                        {
-                            sectionConfirmCreationOfSignlessAccountIsOpen &&  <Button
+                            {
+                                sectionConfirmCreationOfSignlessAccountIsOpen &&
+                                <p 
+                                    style={{
+                                        width: '280px',
+                                        textAlign: 'center',
+                                        marginBottom: '10px'
+                                    }}
+                                >
+                                    The account does not have a signless account, do you want to create one?
+                                </p>
+                            }
+                            
+                            <Button 
                                 className='signless-form__button'
-                                color='grey'
+                                type='submit'
                                 block={true}
-                                onClick={() => setsectionConfirmCreationOfSignlessAccountIsOpen(false)}
                             >
-                                Cancel
+                                {
+                                    !sectionConfirmCreationOfSignlessAccountIsOpen
+                                    ? 'Submit'
+                                    : "Create"
+                                }
                             </Button>
-                        }
-                        {
-                            !sectionConfirmCreationOfSignlessAccountIsOpen &&  <Button
-                                className='signless-form__button'
-                                color='grey'
-                                block={true}
-                                onClick={closeForm}
-                            >
-                                Cancel
-                            </Button>
-                        }
-                    </form>
-                )
-            }   
-        </div>
+
+                            {
+                                sectionConfirmCreationOfSignlessAccountIsOpen &&  <Button
+                                    className='signless-form__button'
+                                    color='grey'
+                                    block={true}
+                                    onClick={() => setsectionConfirmCreationOfSignlessAccountIsOpen(false)}
+                                >
+                                    Cancel
+                                </Button>
+                            }
+                            {
+                                !sectionConfirmCreationOfSignlessAccountIsOpen &&  <Button
+                                    className='signless-form__button'
+                                    color='grey'
+                                    block={true}
+                                    onClick={closeForm}
+                                >
+                                    Cancel
+                                </Button>
+                            }
+                        </form>
+                    )
+                }   
+            </div>
+        </Modal>
+       
     );
 }
