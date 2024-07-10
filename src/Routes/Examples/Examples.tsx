@@ -12,7 +12,6 @@ import {
     VoucherButtons,
     SignlessButtons,
 } from '@/components/ExampleComponents';
-
 import './Examples.css';
 
 export const Examples = () => {

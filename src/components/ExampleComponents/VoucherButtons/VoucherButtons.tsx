@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Button } from '@gear-js/vara-ui';
+import { Button } from '@/components/ui/button';
 import { useContractUtils, useVoucherUtils } from '@/app/hooks';
 import { useAccount, useAlert } from '@gear-js/react-hooks';
 import { sponsorName, sponsorMnemonic } from '@/app/consts';
