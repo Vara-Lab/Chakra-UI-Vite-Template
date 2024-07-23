@@ -1,6 +1,6 @@
 import { decodeAddress } from "@gear-js/api";
 import { useAccount, useAlert } from "@gear-js/react-hooks";
-import { Button, Modal } from "@gear-js/ui";
+import { Button, Modal, buttonStyles } from "@gear-js/ui";
 import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { isWeb3Injected } from "@polkadot/extension-dapp";
 import SimpleBar from "simplebar-react";
@@ -10,6 +10,8 @@ import { useWallet } from "../../hooks";
 import { WALLETS } from "../../consts";
 import { Card, HStack, Image, VStack } from "@chakra-ui/react";
 import { Heading } from "@/components/ui/heading";
+import cx from "clsx";
+import styles from "./accounts-modal.module.scss";
 
 type Props = {
   close: () => void;
@@ -39,6 +41,7 @@ const AccountsModal = ({ close }: Props) => {
   };
 
   const heading = wallet ? "Connect account" : "Choose Wallet";
+  const modalClassName = cx(styles.modal, !isWeb3Injected && styles.empty);
 
   const getWallets = () =>
     WALLETS.map(([id, { image, name }]: any) => {
@@ -49,31 +52,31 @@ const AccountsModal = ({ close }: Props) => {
         accountsCount === 1 ? "account" : "accounts"
       }`;
 
+      const buttonClassName = cx(
+        buttonStyles.button,
+        buttonStyles.large,
+        buttonStyles.block,
+        styles.button,
+        isEnabled && styles.enabled
+      );
+
       return (
-        <Card
-          key={id}
-          border="3px solid black"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          padding="16px"
-          margin="16px"
-        >
-          <button onClick={() => setWalletId(id)}>
-            <VStack align="center">
-              <HStack>
-                <div>
-                  <img src={image} alt={name} width="50" height="50" />
-                  <p>{name}</p>
-                </div>
-              </HStack>
-              <VStack>
-                <p>{isEnabled ? "Enabled" : "Disabled"}</p>
-                {isEnabled && <p>{accountsStatus}</p>}
-              </VStack>
-            </VStack>
+        <li key={id} style={{ marginBottom: '20px' }}>
+          <button className={buttonClassName} onClick={() => setWalletId(id)}>
+            <span>
+              <img src={image} alt={name} width="30" height="30" />
+              <p>{name}</p>
+            </span>
+            <div>
+              <p className={styles.status}>
+                {isEnabled ? "Enabled" : "Disabled"}
+              </p>
+              {isEnabled && (
+                <p className={styles.statusAccounts}>{accountsStatus}</p>
+              )}
+            </div>
           </button>
-        </Card>
+        </li>
       );
     });
 
@@ -101,10 +104,10 @@ const AccountsModal = ({ close }: Props) => {
     });
 
   return (
-    <Modal heading={heading} close={close}>
+    <Modal heading={heading} close={close} className={modalClassName}>
       {isWeb3Injected ? (
         <>
-          <SimpleBar>
+          <SimpleBar  className={styles.simplebar}>
             {!wallet && <ul>{getWallets()}</ul>}
 
             {!!wallet &&

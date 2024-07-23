@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AccountsModal } from "../accounts-modal";
 import { AccountButton } from "../account-button";
 import { Balance } from "../balance";
+import { HStack } from "@chakra-ui/react";
 
 const MultiWallet = () => {
   const { account, isAccountReady } = useAccount();
@@ -14,23 +15,21 @@ const MultiWallet = () => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <>
-      <div>
-        <Balance />
-        {isAccountReady &&
-          (account ? (
-            <AccountButton
-              name={account.meta.name}
-              address={account.address}
-              onClick={openModal}
-            />
-          ) : (
-            <Button text="Connect" color="primary" onClick={openModal} />
-          ))}
-      </div>
+    <HStack>
+      <Balance />
+      {isAccountReady &&
+        (account ? (
+          <AccountButton
+            name={account.meta.name}
+            address={account.address}
+            onClick={openModal}
+          />
+        ) : (
+          <Button text="Connect" color="primary" onClick={openModal} />
+        ))}
 
       {isModalOpen && <AccountsModal close={closeModal} />}
-    </>
+    </HStack>
   );
 };
 
